@@ -1,0 +1,24 @@
+package Training;
+
+import java.util.Scanner;
+
+public class Togglecase {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        String s = "";
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch >= 'a' && ch <= 'z') {
+                s += (char)(ch - 32);
+            }
+            else if (ch >= 'A' && ch <= 'Z') {
+                s += (char)(ch + 32);
+            }
+            else {
+                s += ch;
+            }
+        }
+        System.out.print(s);
+    }
+}

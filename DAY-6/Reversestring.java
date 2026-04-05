@@ -1,0 +1,21 @@
+package Training;
+
+import java.util.Scanner;
+
+public class Reversestring {
+    public static void main(String[] args){
+        Scanner z=new Scanner(System.in);
+        String s=z.nextLine();
+        char[] ch=s.toCharArray();
+        int left=0,right=ch.length-1;
+        while(left<right){
+            char t=ch[left];
+            ch[left]=ch[right];
+            ch[right]=t;
+            left++;
+            right--;
+        }
+        System.out.print(new String(ch));
+
+    }
+}
