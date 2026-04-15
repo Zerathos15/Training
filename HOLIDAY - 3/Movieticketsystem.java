@@ -83,13 +83,14 @@ class User{
                 if(name.equals(u.get(i).na)){
                     if(pass.equals(u.get(i).pa)){
                         flag = true;
+                        System.out.println();
                         System.out.println("----------Welcome "+u.get(i).na+"----------");
-                        System.out.println("----------------------------");
                         break OuterLoop;
                     }
                 }
             }
             if(flag==false){
+                System.out.println();
                 System.out.println("Username and Password Doesnt Match Please Try Again!!!");
             }
         }
@@ -101,7 +102,7 @@ class Ad{
     String pas;
     Ad(String nam,String Pas){
         this.nam=nam;
-        this.pas=pas;
+        this.pas=Pas;
     }
 }
 class Admin{
@@ -116,7 +117,6 @@ class Admin{
         boolean fla = false;
         String namee="";
         String apass="";
-        System.out.print(a.size());
         OuterLoop:
         while(true){
             System.out.print("Enter Name :");
@@ -127,13 +127,14 @@ class Admin{
                 if(namee.equals(a.get(i).nam)){
                     if(apass.equals(a.get(i).pas)){
                         fla = true;
-                        System.out.println("Welcome "+a.get(i).nam);
-                        System.out.println("----------------------------");
+                        System.out.println();
+                        System.out.println("------------Welcome "+a.get(i).nam+"------------");
                         break OuterLoop;
                     }
                 }
             }
             if(fla==false){
+                System.out.println();
                 System.out.println("AdminName and Password Doesnt Match Please Try Again!!!");
             }
         }
@@ -142,37 +143,55 @@ class Admin{
 }
 class S{
     String name;
-    boolean av;
+    boolean av[];
+    S(String name,boolean[] av){
+        this.name=name;
+        this.av=av;
+    }
 }
 class Seat{
-    S arr[];
+    ArrayList<S> s;
     Seat(){
-        arr = new S[30];
-        for(int i = 0; i < arr.length; i++){
-            arr[i] = new S();
-            arr[i].av = false;   
+        s = new ArrayList<>();
+        boolean sarr[] = new boolean[30];
+        Arrays.fill(sarr, false);
+        String arr[]={"Vikram","Master","96","Kaithi","Soorarai Pottru","Doctor"};
+        for(int i=0;i<arr.length;i++){
+            String sn = arr[i];
+            S sa = new S(sn, sarr);
+            s.add(sa);
         }
     }
     void book(int[] nu,String name,String uname){
-        for(int i=0;i<nu.length;i++){
-            arr[nu[i]-1].av=true;
+        for(S sv : s){
+            if(sv.name.equals(name)){
+                for(int i=0;i<nu.length;i++){
+                    sv.av[nu[i]-1] = true;
+                }
+            }
         }
+        System.out.println();
         System.out.println("SuccessFully Booked!!!");
         System.out.println("----------Ticket Details----------");
-        System.out.print("\nName :"+uname);
+        System.out.print("Name :"+uname);
         System.out.print("\nMovie Name :"+name);
         System.out.print("\nNo.Of.Tickets :"+nu.length);
         System.out.println();
     }
-    void avail(){
-        for(int i=0;i<30;i++){
-            if(arr[i].av==true){
-                continue;
+    void avail(String name){
+       for(S sv : s){
+            if(sv.name.equals(name)){
+                for(int i=0;i<sv.av.length;i++){
+                    if(sv.av[i]==true){
+                        continue;
+                    }
+                    else{
+                        int sen =i+1;
+                        System.out.print(sen+" ");
+                    }
+                }
             }
-            else{
-                System.out.println(i+1);
-            }
-        }
+       }
     }
 }
 
@@ -217,28 +236,28 @@ public class Movieticketsystem{
                             System.out.print("\nEnter No.of.Seats :");
                             int as = sc.nextInt();
                             int arr[] = new int[as];
-                            Seat sa = new Seat();
                             System.out.print("Enter Movie ID :");
                             sc.nextLine();
                             String id = sc.nextLine();
                             String bn = m.mname(id);
-                            sa.avail();
+                            sn.avail(bn);
                             for(int i=0;i<arr.length;i++){
                                 System.out.print("\nEnter Seat Number :");
                                 arr[i]=sc.nextInt();
                             }
-                            sa.book(arr,bn,un);
+                            sn.book(arr,bn,un);
+                            sc.nextLine();
                             break;
                         case 2:
                             ad.Login(sc);
                             System.out.print("\n1.Add Movie \n2.Remove Movie");
-                            System.out.print("Enter Your Choice :");
+                            System.out.print("\nEnter Your Choice :");
                             int ac = sc.nextInt();
                             sc.nextLine();
                             switch (ac) {
                                 case 1:
                                     String Mon,Mol,Mog,Moi;
-                                    float Mod;
+                                    double Mod;
                                     System.out.print("\nEnter Movie ID :");
                                     Moi = sc.nextLine();
                                     System.out.print("\nEnter Movie Name :");
@@ -248,9 +267,10 @@ public class Movieticketsystem{
                                     System.out.print("\nEnter Movie Genre :");
                                     Mog = sc.nextLine();
                                     System.out.print("\nEnter Duration :");
-                                    Mod = sc.nextFloat();
+                                    Mod = sc.nextDouble();
                                     Mo ml7 = new Mo(Moi, Mon, Mol, Mog, Mod);
                                     m.add(ml7);
+                                    sc.nextLine();
                                     break;
                                 case 2:
                                     System.out.print("\nEnter Movie Name :");
@@ -259,6 +279,11 @@ public class Movieticketsystem{
                                     break;
                             }
                             break;
+                    }
+                    System.out.print("Do You Wish To Continue (Y/N)?");
+                    String ec = sc.nextLine();
+                    if(ec.equalsIgnoreCase("n")){
+                        break OuterLoop;
                     }
                     break;
                 case 2:
